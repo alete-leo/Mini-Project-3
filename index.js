@@ -157,6 +157,35 @@ app.post("/signin", async (req, res) => {
 // blog routing
 //deleted old code
 
+// new create post
+app.post("/submit", requireLogin, async (req, res) => {
+    const title = req.body.title;
+    const body = req.body.content;
+
+    if (!title || !body) {
+        return res.status(400);
+    }
+    try {
+        // save post connected to user
+        await db.query(
+            "INSERT INTO blogs (creator_name, creator_user_id, title, body, date_created) VALUES ($1, $2, $3, $4, NOW())",
+            [
+                req.session.user.name,
+                req.session.user.user_id,
+                title,
+                body
+            ]
+        );
+
+        // reload
+        res.redirect("/");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("There was a problem creating your blog post.");
+    }
+});
+
+
 
 /* sample
 [
