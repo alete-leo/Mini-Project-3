@@ -59,12 +59,23 @@
                     <p class="text-muted small"> Created by author <%= post.creator_name %> on <%= new Date(post.date_created).toLocaleString() %> </p>
                     <p class="form-control"><%= post.body %></p>
 
-                    <a class="btn btn-outline-primary" href="/edit/<%= post.id %>">Edit</a>
+                    <!-- <a class="btn btn-outline-primary" href="/edit/<%= post.id %>">Edit</a>
                     
 
                     <form action="/delete/<%= post.id %>" method="POST">
                         <button type="submit">Delete</button>
-                    </form>
+                    </form> -->
+
+                    <% if (locals.currentUser && currentUser.user_id === post.creator_user_id) { %>
+                        <a href="/edit/<%= post.blog_id %>" class="btn btn-primary btn-sm">
+                            Edit
+                        </a>
+                        <form action="/delete/<%= post.blog_id %>" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                            Delete
+                            </button>
+                        </form>
+                    <% } %>
                     
                 </article> <p></p>
 

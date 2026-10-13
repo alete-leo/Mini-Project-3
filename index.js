@@ -181,7 +181,6 @@ app.post("/submit", requireLogin, async (req, res) => {
         res.redirect("/");
     } catch (err) {
         console.log(err);
-        res.status(500).send("There was a problem creating your blog post.");
     }
 });
 
@@ -205,6 +204,60 @@ app.post("/submit", requireLogin, async (req, res) => {
   }
 ]
 */
+
+
+//get edit info (formerly deleted so reworking)
+app.get("/edit/:id", requireLogin, async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT * FROM blogs WHERE blog_id = $1 AND creator_user_id = $2",
+      [req.params.id, req.session.user.user_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404);
+    }
+
+    res.render("edit.ejs", {
+      post: result.rows[0]
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// post the finished edit
+app.post("/edit/:id", requireLogin, async (req, res) => {
+  try {
+    const title = req.body.title;
+    const body = req.body.body;
+
+    await db.query(
+      "UPDATE blogs SET title = $1, body = $2 WHERE blog_id = $3 AND creator_user_id = $4",
+      [title, body, req.params.id, req.session.user.user_id]
+    );
+
+    res.redirect("/"); //redirect back to update page
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+
+//post the deletion. requireLogin again refers to function requireLogin
+app.post("/delete/:id", requireLogin, async (req, res) => {
+  try {
+    await db.query(
+      "DELETE FROM blogs WHERE blog_id = $1 AND creator_user_id = $2",
+      [req.params.id, req.session.user.user_id]
+    );
+
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 
 
