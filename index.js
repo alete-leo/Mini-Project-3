@@ -1,11 +1,25 @@
 import express from "express";
 import bodyParser from "body-parser";
+import pg from "pg";
+import session from "express-session";
 
 console.log("Script is running");
 
 const app = express();
 const port = 3000;
-const posts = [];
+// const posts = [];
+
+//from ls, connect postgres
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "BlogDB",
+    password: "p0sut0gur3su",
+    port: 5432,
+});
+
+db.connect();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public")); // for the css
