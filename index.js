@@ -52,14 +52,6 @@ async function getPosts() {
 
     return result.rows;
 }
-
-
-
-
-
-
-
-
 // new /, wait for posts first before render
 app.get("/", async (req, res) => {
     try {
@@ -73,6 +65,93 @@ app.get("/", async (req, res) => {
         console.log(err);
     }
 });
+
+
+
+
+// and that signup and signin page
+app.get("/signup", (req, res) => {
+    res.render("signup.ejs", {
+        error: null
+    });
+});
+app.get("/signin", (req, res) => {
+    res.render("signin.ejs", {
+        error: null
+    });
+});
+
+
+// new acc
+app.post("/signup", async (req, res) => {
+    const userId = req.body.user_id;
+    const password = req.body.password;
+    const name = req.body.name;
+
+    if (!userId || !password || !name) {
+        return res.status(400).render("signup.ejs", {
+            error: "Please fill in all three fields."
+        });
+    }
+
+    try {
+        // check tkaen
+        const result = await db.query(
+            "SELECT user_id FROM users WHERE user_id = $1",
+            [userId]
+        );
+        if (result.rows.length > 0) {
+            return res.status(409).render("signup.ejs", {
+                error: "That user ID is already taken. Please choose another."
+            });
+        }
+        // insert db
+        await db.query(
+            "INSERT INTO users (user_id, password, name) VALUES ($1, $2, $3)",
+            [userId, password, name]
+        );
+
+        // Send the new user to the signin page
+        res.redirect("/signin");
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+// signin funct
+app.post("/signin", async (req, res) => {
+    const userId = req.body.user_id;
+    const password = req.body.password;
+
+    try {
+        // find matching ID and pass
+        const result = await db.query(
+            "SELECT user_id, name FROM users WHERE user_id = $1 AND password = $2",
+            [userId, password]
+        );
+        if (result.rows.length === 0) {
+            return res.status(401).render("signin.ejs", {
+                error: "Incorrect info. Try again."
+            });
+        }
+
+        // save to sess
+        req.session.user = {
+            user_id: result.rows[0].user_id,
+            name: result.rows[0].name
+        };
+
+        // redirect to blog
+        res.redirect("/");
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+
+
 
 
 // blog routing
