@@ -24,6 +24,48 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public")); // for the css
 
+
+
+// user remember
+app.use(session({
+    secret: "shouldBeSecureButIdc",
+    resave: false, // doesn't save sess when no change
+    saveUninitialized: false // doesn't save new untouched sess, base code from ex
+}));
+
+// check signed in
+function requireLogin(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect("/signin");
+    }
+
+    next();
+}
+
+
+
+// get posts from db
+async function getPosts() {
+    const result = await db.query(
+        "SELECT * FROM blogs ORDER BY date_created DESC"
+    );
+
+    return result.rows;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
