@@ -1,0 +1,119 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+  </head>
+
+
+  <body>
+removed the sample code here cuz it was causing issues
+    <form action="/submit" method="POST">
+      <input type="text" name="fName" placeholder="First name" />
+      <input type="text" name="lName" placeholder="Last name" />
+      <input type="submit" value="OK" />
+    </form>
+  </body>
+</html>
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"  rel="stylesheet">
+    <link rel="stylesheet" href="/styles/content.css">
+
+  </head>
+
+    <h1>Blog</h1>
+
+    <section>
+        <h2>Blog Post Creation!</h2>
+
+        
+
+        <form action="/submit" method="POST">
+            <div>
+                <label for="title">Blog Title</label> <!-- the for -->
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title"/>
+            </div>
+
+            <div>
+                <label for="author">Your Name</label>
+                <input type="text" class="form-control" id="author" name="author" placeholder="Enter Name"/>
+            </div>
+
+            <div>
+                <label for="content">Blog Content</label>
+                <p></p>
+                <textarea class="form-control" id="content" name="content" placeholder="Write your blog post here!" rows="3" cols="50"></textarea> <!-- I found textarea to be bigger -->
+                <!-- https://www.w3schools.com/TAGs/tag_textarea.asp is what I used in case needed-->
+                <button type="submit">Create Post</button>
+            </div>
+            
+
+        </form>
+    </section>
+    <section><p></p></section>
+    <div> <!-- to separate the created ones -->
+        <h2>Look at other posts!</h2>
+        <% if (!locals.posts || locals.posts.length === 0) { %> <!-- just using locals didn't work so had to also do if not existent-->
+            <p>No blog posts yet. Create the first one!</p>
+        <% } else { %>
+            <% locals.posts.forEach((post) => { %>
+                <article class="card shadow-sm post-card">
+                    <h3 class="card-title"><%= post.title %></h3>
+                    <p class="text-muted small"> Created by author <%= post.author %> on <%= post.date %> </p>
+                    <p class="form-control"><%= post.content %></p>
+
+                    <a class="btn btn-outline-primary" href="/edit/<%= post.id %>">Edit</a>
+                    
+
+                    <form action="/delete/<%= post.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                    
+                </article> <p></p>
+
+            <% }); %>
+        <% } %>
+
+    </section>
+
+    
+<% if (locals.editPost) { %>
+
+<form id="editForm" action="/edit/<%= editPost.id %>" method="POST">
+    <input type="hidden" id="editTitle" name="title">
+    <input type="hidden" id="editAuthor" name="author">
+    <input type="hidden" id="editContent" name="content">
+</form>
+
+<script> //sorry about the usage of scripts and alerts, I wasn't able to do the other way I wanted for edits
+    const title = prompt("Edit title:", "<%= editPost.title %>");
+    const author = prompt("Edit author:", "<%= editPost.author %>");
+    const content = prompt("Edit content:", "<%= editPost.content %>");
+
+    if (title !== null && author !== null && content !== null) {
+        document.getElementById("editTitle").value = title;
+        document.getElementById("editAuthor").value = author;
+        document.getElementById("editContent").value = content;
+
+        document.getElementById("editForm").submit();
+    } else {
+        alert("didn't input");
+        window.location.href = "/";
+    }
+</script>
+
+<% } %>
+
+</html>
+

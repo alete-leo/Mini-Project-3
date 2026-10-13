@@ -1,0 +1,26 @@
+{
+  "name": "web-blog",
+  "version": "1.0.0",
+  "description": "a basic blog web application using Node.js, Express.js, and EJS. The app will enable users to create, view, edit, and delete blog posts. Responsiveness and styling will be key aspects to ensure an enhanced user experience. No database will be used, so posts will not persist between sessions",
+  "homepage": "https://github.com/alete-leo/CS-312-MiniProject-1#readme",
+  "bugs": {
+    "url": "https://github.com/alete-leo/CS-312-MiniProject-1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alete-leo/CS-312-MiniProject-1.git"
+  },
+  "license": "ISC",
+  "author": "Levi Korell",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}

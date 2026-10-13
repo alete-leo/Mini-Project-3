@@ -1,0 +1,238 @@
+
+.container{
+    display: flex;
+	flex-wrap: wrap;
+	justify-content: center; 
+    
+    display: grid;
+	/* grid-template-rows: repeat(3, 1fr); */
+	/* grid-template-columns: repeat(3, 1fr); not anymore cuz of the areas */
+	grid-template-rows: auto 1000px auto; /* middle is the main & this determines vertical idk why*/
+	grid-template-columns: 20% auto;
+	/* 200px width of sidebar and auto for main content */
+	grid-template-areas:
+	"header header header"
+	"sidebar main main"
+	"footer footer footer";
+	/* (this means place the grid in hear three times) */
+    row-gap: 20px;
+    column-gap: 20px;
+    color: black;
+
+    margin-top: 75px;
+    margin-bottom: 100px;
+    
+
+
+}
+
+div {
+	background-color: lightgray;
+	border: 2px solid black;
+	padding: 20px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+}
+
+
+
+
+.header{
+	grid-area: header;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 5;
+    flex-shrink: 0;
+
+    
+}
+
+
+
+
+
+.sidebar{
+    /* Utilize Flexbox to position the sidebar that contains navigation elements.
+    Make the sidebar a Flexbox container and arrange the navigation items vertically.
+    Apply Flexbox properties like justify-content and align-items to control the alignment of navigation items within the sidebar. */
+	grid-area: sidebar;
+    max-height: 500px;
+
+    padding: 2px;
+    background-color: skyblue;
+    border-radius: 50px;
+    
+
+    position: sticky;
+    top: 150px;
+    
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around; /* Centers horizontally */
+    align-items: stretch;
+
+    
+
+    /* Place the option (download) in the left navigation menu using position absolute.
+    Use CSS properties such as background color, padding, curved borders, and hover effects to enhance 
+    the appearance and interactivity of the resume download button. */
+
+}
+
+.sidebar > *{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+}
+
+
+.main-content{
+    
+    align-items: center;
+    position: relative;
+
+	grid-area: main;
+    overflow: auto; 
+    
+    /*display: flex;
+    flex-direction: column;
+	flex-wrap: nowrap; */
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+    justify-content: center; 
+
+	/* justify-content: center; */
+    img {
+        width: 50%;
+    }
+
+    * {
+        /*
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+
+
+        flex-grow: 1;
+        flex-shrink: 1;
+        */
+    }
+
+    /* Implement a Flexbox layout to organize and align the skillset section.
+    Utilize Flexbox properties such as display: flex, justify-content, align-items, and flex-wrap to create a responsive and visually appealing layout for showcasing your skills.
+    Play around with flex directions (row and column) and observe how it affects the other flex properties. */
+
+    /* Projects - Create a grid container and define grid rows and columns to effectively display project titles, descriptions, and images.
+    Experiment with grid-template-columns, grid-gap, and other grid properties to achieve the desired layout */
+
+    
+}
+
+/*
+
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+    flex-grow: 1;
+
+    * {
+        display: flexbox;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+
+
+        flex-grow: 1;
+        flex-shrink: 1;
+
+
+    }
+}
+
+
+thead{
+    padding: 2px;
+    background-color: aliceblue;
+    border-radius: 50px;
+    color: purple;
+}
+
+td{
+    padding: 2px;
+    background-color: antiquewhite;
+    border-radius: 0px;
+    color: purple;
+}
+
+
+h2{
+    padding: 2px;
+    background-color: aliceblue;
+    border-radius: 50px;
+    color: purple;
+}
+
+.main-content h3{
+    padding: 2px;
+    border-radius: 50px;
+    color: brown;
+}
+
+.main-content b{
+    padding: 2px;
+    background-color: skyblue;
+    border-radius: 50px;
+}
+
+.main-content ul{
+    font-family: cursive;
+    text-align: left;
+    display: inline-block;
+}
+
+li{
+    text-align: left;
+}
+
+
+
+
+.footer{
+	grid-area: footer;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height:100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    
+
+}
+
+/* Contact - Place your contact information in the footer. Use CSS positioning techniques to style the contact information section.
+Apply absolute or relative positioning to position the contact details within the webpage. 
+Experiment with top, bottom, left, and right properties to achieve the desired placement. */
