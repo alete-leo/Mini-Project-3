@@ -35,8 +35,8 @@ app.use(session({
 
 // check signed in
 function requireLogin(req, res, next) {
-    if (!req.session.user) {
-        return res.redirect("/signin");
+    if (!req.session.user) { // from request, ! use rdoesn't exist
+        return res.redirect("/signin"); // have them sign in
     }
 
     next();
@@ -60,16 +60,19 @@ async function getPosts() {
 
 
 
+// new /, wait for posts first before render
+app.get("/", async (req, res) => {
+    try {
+        const posts = await getPosts();
 
-
-
-
-
-
-app.get("/", (req, res) => {
-  res.render("index.ejs");
+        res.render("index.ejs", {
+            posts: posts,
+            currentUser: req.session.user
+        });
+    } catch (err) {
+        console.log(err);
+    }
 });
-
 
 
 // blog routing
