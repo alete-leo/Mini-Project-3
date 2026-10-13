@@ -28,17 +28,6 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-/* 
-app.post("/submit", (req, res) => {
-  const numLetters = req.body["fName"].length + req.body["lName"].length;
-  // from <input type="text" name="fName" placeholder="Blog Title" /> , <% if (locals.numberOfLetters) { %> , <h1>There are <%= numberOfLetters %> blog posts here.</h1>
-  res.render("index.ejs", { numberOfLetters: numLetters });
-});
-
-*/
-
-// the above is the default code taken from the numLetters exercise, establishing a connection & function for receiving and sending data
-
 
 
 // blog routing
