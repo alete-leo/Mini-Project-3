@@ -11,6 +11,8 @@
   </head>
 
     <h1>Blog</h1>
+    <% if (locals.currentUser) { %>
+        <p>Welcome, <%= currentUser.name %>!</p>
 
     <section>
         <h2>Blog Post Creation!</h2>
@@ -23,10 +25,10 @@
                 <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title"/>
             </div>
 
-            <div>
+            <!-- <div>
                 <label for="author">Your Name</label>
                 <input type="text" class="form-control" id="author" name="author" placeholder="Enter Name"/>
-            </div>
+            </div> -->
 
             <div>
                 <label for="content">Blog Content</label>
@@ -35,6 +37,12 @@
                 <!-- https://www.w3schools.com/TAGs/tag_textarea.asp is what I used in case needed-->
                 <button type="submit">Create Post</button>
             </div>
+
+            <% } else { %>
+                <p>Sign in to post</p>
+                <a href="/signin" class="btn btn-primary">Sign In</a>
+                <a href="/signup" class="btn btn-outline-primary">Sign Up</a>
+            <% } %>
             
 
         </form>
@@ -48,8 +56,8 @@
             <% locals.posts.forEach((post) => { %>
                 <article class="card shadow-sm post-card">
                     <h3 class="card-title"><%= post.title %></h3>
-                    <p class="text-muted small"> Created by author <%= post.author %> on <%= post.date %> </p>
-                    <p class="form-control"><%= post.content %></p>
+                    <p class="text-muted small"> Created by author <%= post.creator_name %> on <%= new Date(post.date_created).toLocaleString() %> </p>
+                    <p class="form-control"><%= post.body %></p>
 
                     <a class="btn btn-outline-primary" href="/edit/<%= post.id %>">Edit</a>
                     
@@ -92,6 +100,7 @@
 </script>
 
 <% } %>
+
 
 </html>
 
